@@ -11,3 +11,40 @@ if [[ -s "${ZDOTDIR:-$HOME}/.zprezto/init.zsh" ]]; then
 fi
 
 # Customize to your needs...
+
+export PYENV_ROOT="$HOME/.pyenv"
+command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"
+eval "$(pyenv init -)"
+
+# The next line updates PATH for the Google Cloud SDK.
+if [ -f '/Users/hyunkyulee/Developer/google-cloud-sdk/path.zsh.inc' ]; then . '/Users/hyunkyulee/Developer/google-cloud-sdk/path.zsh.inc'; fi
+
+# The next line enables shell command completion for gcloud.
+if [ -f '/Users/hyunkyulee/Developer/google-cloud-sdk/completion.zsh.inc' ]; then . '/Users/hyunkyulee/Developer/google-cloud-sdk/completion.zsh.inc'; fi
+
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+
+export PATH="$HOME/.poetry/bin:$PATH"
+
+USE_GKE_GCLOUD_AUTH_PLUGIN=True
+
+alias k="kubectl"
+
+function lite() {
+    open $1 -a Lite\ XL
+}
+
+function formatJSON() {
+    pbpaste | jq . | pbcopy
+}
+
+export PATH="/Users/hyunkyulee/.local/bin:$PATH"
+
+# PATH="/Users/hyunkyulee/perl5/bin${PATH:+:${PATH}}"; export PATH;
+# PERL5LIB="/Users/hyunkyulee/perl5/lib/perl5${PERL5LIB:+:${PERL5LIB}}"; export PERL5LIB;
+# PERL_LOCAL_LIB_ROOT="/Users/hyunkyulee/perl5${PERL_LOCAL_LIB_ROOT:+:${PERL_LOCAL_LIB_ROOT}}"; export PERL_LOCAL_LIB_ROOT;
+# PERL_MB_OPT="--install_base \"/Users/hyunkyulee/perl5\""; export PERL_MB_OPT;
+# PERL_MM_OPT="INSTALL_BASE=/Users/hyunkyulee/perl5"; export PERL_MM_OPT;
+export PATH="/opt/homebrew/opt/openssl@1.1/bin:$PATH"
