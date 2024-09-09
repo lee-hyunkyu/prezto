@@ -48,3 +48,6 @@ export PATH="/Users/hyunkyulee/.local/bin:$PATH"
 # PERL_MB_OPT="--install_base \"/Users/hyunkyulee/perl5\""; export PERL_MB_OPT;
 # PERL_MM_OPT="INSTALL_BASE=/Users/hyunkyulee/perl5"; export PERL_MM_OPT;
 export PATH="/opt/homebrew/opt/openssl@1.1/bin:$PATH"
+
+# git alias
+alias gpsup="git push --set-upstream origin $(git_current_branch)"
