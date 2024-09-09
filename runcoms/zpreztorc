@@ -40,8 +40,11 @@ zstyle ':prezto:load' pmodule \
   'completion' \
   'history-substring-search' \
   'prompt' \
-  'zsh-autosuggestions' \   # https://github.com/zsh-users/zsh-autosuggestions
-  'zsh-syntax-highlighting' # https://github.com/zsh-users/zsh-syntax-highlighting
+  'zsh-autosuggestions' \
+  'zsh-syntax-highlighting'
+
+# https://github.com/zsh-users/zsh-syntax-highlighting
+# https://github.com/zsh-users/zsh-autosuggestions
 
 #
 # Autosuggestions
