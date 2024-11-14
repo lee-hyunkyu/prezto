@@ -22,10 +22,6 @@ if [ -f '/Users/hyunkyulee/Developer/google-cloud-sdk/path.zsh.inc' ]; then . '/
 # The next line enables shell command completion for gcloud.
 if [ -f '/Users/hyunkyulee/Developer/google-cloud-sdk/completion.zsh.inc' ]; then . '/Users/hyunkyulee/Developer/google-cloud-sdk/completion.zsh.inc'; fi
 
-export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
-
 export PATH="$HOME/.poetry/bin:$PATH"
 
 USE_GKE_GCLOUD_AUTH_PLUGIN=True
@@ -40,6 +36,16 @@ function formatJSON() {
     pbpaste | jq . | pbcopy
 }
 
+export NVM_LOADED=false
+function nvm_init() {
+    if [[ $NVM_LOADED = "false" ]]; then
+        export NVM_LOADED="true"
+        export NVM_DIR="$HOME/.nvm"
+        [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" # This loads nvm
+        [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+    fi
+}
+
 export PATH="/Users/hyunkyulee/.local/bin:$PATH"
 
 # PATH="/Users/hyunkyulee/perl5/bin${PATH:+:${PATH}}"; export PATH;
@@ -49,12 +55,9 @@ export PATH="/Users/hyunkyulee/.local/bin:$PATH"
 # PERL_MM_OPT="INSTALL_BASE=/Users/hyunkyulee/perl5"; export PERL_MM_OPT;
 export PATH="/opt/homebrew/opt/openssl@1.1/bin:$PATH"
 
-# git alias
-alias gpsup="git push --set-upstream origin $(git_current_branch)"
-
 # https://www.codyhiar.com/blog/custom-backward-word-deletion-in-zsh/
 # This will be our new default `ctrl+w` command
-my-backward-delete-word() {
+function my_backward_delete_word() {
     # Copy the global WORDCHARS variable to a local variable. That way any
     # modifications are scoped to this function only
     local WORDCHARS=$WORDCHARS
@@ -69,12 +72,12 @@ my-backward-delete-word() {
     zle backward-delete-word
 }
 # `zle -N` will create a new widget that we can use on the command line
-zle -N my-backward-delete-word
+zle -N my_backward_delete_word
 # bind this new widget to `ctrl+w`
-bindkey '^W' my-backward-delete-word
+bindkey '^W' my_backward_delete_word
 
 # This will be our `ctrl+alt+w` command
-my-backward-delete-whole-word() {
+function my_backward_delete_whole_word() {
     # Copy the global WORDCHARS variable to a local variable. That way any
     # modifications are scoped to this function only
     local WORDCHARS=$WORDCHARS
@@ -85,6 +88,20 @@ my-backward-delete-whole-word() {
     zle backward-delete-word
 }
 # `zle -N` will create a new widget that we can use on the command line
-zle -N my-backward-delete-whole-word
+zle -N my_backward_delete_whole_word
 # bind this new widget to `ctrl+alt+w`
-bindkey '^[^w' my-backward-delete-whole-word
+bindkey '^[^w' my_backward_delete_whole_word
+
+function branch_history() {
+    git reflog | perl -n -e'/.*checkout: moving from \S+ to (.+)$/ && print "$1\n"' | awk '!x[$0]++' | head -n ${1:-10}
+}
+
+function chpwd() {
+  if [ -f package.json ]; then
+    nvm_init
+  fi
+}
+
+if [ -f package.json ]; then
+  nvm_init
+fi
